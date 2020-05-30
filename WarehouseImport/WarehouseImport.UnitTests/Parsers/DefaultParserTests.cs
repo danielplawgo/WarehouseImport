@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FluentAssertions;
 using WarehouseImport.Parsers;
+using Xunit;
 
 namespace WarehouseImport.UnitTests.Parsers
 {
@@ -24,6 +26,22 @@ namespace WarehouseImport.UnitTests.Parsers
             result.Success
                 .Should()
                 .BeFalse();
+        }
+
+        [Fact]
+        public void Return_NullCommand_When_Line_Start_With_Hash()
+        {
+            var parser = Create();
+
+            var result = parser.Parse("#Line to ignore");
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            result.Value
+                .Should()
+                .BeOfType<NullCommand>();
         }
     }
 }
