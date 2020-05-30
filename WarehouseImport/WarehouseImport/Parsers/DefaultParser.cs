@@ -12,6 +12,12 @@ namespace WarehouseImport.Parsers
             {
                 return Result.Failure<ICommand>("Invalid line");
             }
+
+            if (line.StartsWith("#"))
+            {
+                return Result.Ok<ICommand>(new NullCommand());
+            }
+
             throw new NotImplementedException();
         }
     }
