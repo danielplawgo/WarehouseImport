@@ -18,5 +18,10 @@ namespace WarehouseImport.Warehouses
         public string Id { get; }
 
         public int Count { get; private set; }
+
+        public void AddCount(in int count)
+        {
+            Count += count;
+        }
     }
 }

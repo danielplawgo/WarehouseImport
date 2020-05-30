@@ -19,6 +19,10 @@ namespace WarehouseImport.Warehouses
 
         public void AddMaterial(string name, string id, int count)
         {
+            var material = new Material(name, id);
+            material.AddCount(count);
+
+            _materials.Add(material);
         }
     }
 }
