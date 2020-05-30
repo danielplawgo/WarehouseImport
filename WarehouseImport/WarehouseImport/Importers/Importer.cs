@@ -15,7 +15,9 @@ namespace WarehouseImport.Importers
 
         public Result Import()
         {
-            throw new NotImplementedException();
+            var lines = _importSource.GetLines();
+            
+            return Result.Ok();
         }
     }
 }
