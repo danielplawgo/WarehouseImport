@@ -24,6 +24,7 @@ namespace WarehouseImport.UnitTests.Importers
         protected Mock<IParser> Parser;
 
         protected Mock<ICommand> Command;
+        protected Result<ICommand> ParseResult;
 
         protected Mock<IMediator> Mediator;
 
@@ -34,10 +35,11 @@ namespace WarehouseImport.UnitTests.Importers
                 .ReturnsAsync(_lines);
 
             Command = new Mock<ICommand>();
+            ParseResult = Result.Ok(Command.Object);
 
             Parser = new Mock<IParser>();
             Parser.Setup(m => m.ParseAsync(It.IsAny<string>()))
-                .ReturnsAsync(Result.Ok(Command.Object));
+                .ReturnsAsync(ParseResult);
 
             Mediator = new Mock<IMediator>();
             Mediator.Setup(m => m.Send(It.IsAny<IRequest<Result>>(), It.IsAny<CancellationToken>()))
@@ -77,6 +79,18 @@ namespace WarehouseImport.UnitTests.Importers
             await importer.ImportAsync();
 
             Mediator.Verify(m => m.Send(Command.Object, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async void Dont_Send_Command_When_Parse_Is_Not_Success()
+        {
+            var importer = Create();
+
+            ParseResult.Success = false;
+
+            await importer.ImportAsync();
+
+            Mediator.Verify(m => m.Send(It.IsAny<IRequest<Result>>(), It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 }
