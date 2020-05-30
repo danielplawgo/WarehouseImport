@@ -8,6 +8,10 @@ namespace WarehouseImport.Parsers
     {
         public Result<ICommand> Parse(string line)
         {
+            if (string.IsNullOrEmpty(line))
+            {
+                return Result.Failure<ICommand>("Invalid line");
+            }
             throw new NotImplementedException();
         }
     }
