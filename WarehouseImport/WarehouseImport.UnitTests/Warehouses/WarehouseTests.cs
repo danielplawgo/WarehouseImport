@@ -54,5 +54,21 @@ namespace WarehouseImport.UnitTests.Warehouses
                 .And
                 .Contain(m => m.Name == "name2" && m.Id == "id2" && m.Count == 30);
         }
+
+        [Fact]
+        public void Add_Twice_Time_The_Same_Material_To_Warehouse()
+        {
+            var warehouse = new Warehouse("warehouse");
+
+            warehouse.AddMaterial("name", "id", 10);
+
+            warehouse.AddMaterial("name", "id", 20);
+
+            warehouse.Materials
+                .Should()
+                .HaveCount(1)
+                .And
+                .Contain(m => m.Name == "name" && m.Id == "id" && m.Count == 30);
+        }
     }
 }
