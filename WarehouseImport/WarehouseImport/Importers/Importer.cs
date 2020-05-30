@@ -35,7 +35,10 @@ namespace WarehouseImport.Importers
             {
                 var parseResult = await parser.ParseAsync(line);
 
-                await _mediator.Send(parseResult.Value);
+                if (parseResult.Success)
+                {
+                    await _mediator.Send(parseResult.Value);
+                }
             }
             
             return Result.Ok();
