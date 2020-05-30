@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace WarehouseImport.Warehouses
@@ -19,10 +20,15 @@ namespace WarehouseImport.Warehouses
 
         public void AddMaterial(string name, string id, int count)
         {
-            var material = new Material(name, id);
-            material.AddCount(count);
+            var material = _materials.FirstOrDefault(m => m.Id == id);
 
-            _materials.Add(material);
+            if (material == null)
+            {
+                material = new Material(name, id);
+                _materials.Add(material);
+            }
+                
+            material.AddCount(count);
         }
     }
 }
