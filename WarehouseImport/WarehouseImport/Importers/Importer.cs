@@ -33,7 +33,9 @@ namespace WarehouseImport.Importers
 
             foreach (var line in lines)
             {
-                var commandResult = await parser.ParseAsync(line);
+                var parseResult = await parser.ParseAsync(line);
+
+                await _mediator.Send(parseResult.Value);
             }
             
             return Result.Ok();
