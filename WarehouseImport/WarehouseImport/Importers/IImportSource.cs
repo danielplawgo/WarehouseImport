@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WarehouseImport.Importer
+namespace WarehouseImport.Importers
 {
     public interface IImportSource
     {
