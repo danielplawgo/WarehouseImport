@@ -13,8 +13,7 @@ namespace WarehouseImport.UnitTests.Importers
 
         protected IEnumerable<string> _lines = new List<string>()
         {
-            "line1",
-            "line2"
+            "line"
         };
 
         protected virtual Importer Create()
