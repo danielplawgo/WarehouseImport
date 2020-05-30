@@ -16,5 +16,9 @@ namespace WarehouseImport.Warehouses
         public string Name { get; }
 
         public IEnumerable<Material> Materials => _materials;
+
+        public void AddMaterial(string name, string id, int count)
+        {
+        }
     }
 }
