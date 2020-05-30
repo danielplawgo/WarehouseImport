@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 using WarehouseImport.Parsers;
 
 namespace WarehouseImport.Importers
@@ -13,11 +14,15 @@ namespace WarehouseImport.Importers
 
         private readonly IParser[] _parsers;
 
+        private readonly IMediator _mediator;
+
         public Importer(IImportSource importSource,
-            IParser[] parsers)
+            IParser[] parsers,
+            IMediator mediator)
         {
             _importSource = importSource;
             _parsers = parsers;
+            _mediator = mediator;
         }
 
         public async Task<Result> ImportAsync()

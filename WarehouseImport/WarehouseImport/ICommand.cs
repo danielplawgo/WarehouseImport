@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MediatR;
 
 namespace WarehouseImport
 {
-    public interface ICommand
+    public interface ICommand : IRequest<Result>
     {
     }
 }
