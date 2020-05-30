@@ -11,5 +11,19 @@ namespace WarehouseImport.UnitTests.Parsers
         {
             return new DefaultParser();
         }
+
+        [Theory]
+        [InlineData((string) null)]
+        [InlineData("")]
+        public void Return_False_Result_When_Line_Is_Null_Or_Empty(string line)
+        {
+            var parser = Create();
+
+            var result = parser.Parse(line);
+
+            result.Success
+                .Should()
+                .BeFalse();
+        }
     }
 }
