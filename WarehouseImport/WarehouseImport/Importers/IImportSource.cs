@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WarehouseImport.Importers
 {
     public interface IImportSource
     {
-        IEnumerable<string> GetLines();
+        Task<IEnumerable<string>> GetLinesAsync();
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WarehouseImport.Importers
 {
     public interface IImporter
     {
-        Result Import();
+        Task<Result> ImportAsync();
     }
 }

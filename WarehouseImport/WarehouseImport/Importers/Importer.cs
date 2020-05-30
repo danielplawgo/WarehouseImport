@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WarehouseImport.Parsers;
 
 namespace WarehouseImport.Importers
@@ -19,15 +20,15 @@ namespace WarehouseImport.Importers
             _parsers = parsers;
         }
 
-        public Result Import()
+        public async Task<Result> ImportAsync()
         {
-            var lines = _importSource.GetLines();
+            var lines = await _importSource.GetLinesAsync();
 
             var parser = _parsers.FirstOrDefault(); //we can add some logic for getting correct parser
 
             foreach (var line in lines)
             {
-                var commandResult = parser.Parse(line);
+                var commandResult = await parser.ParseAsync(line);
             }
             
             return Result.Ok();

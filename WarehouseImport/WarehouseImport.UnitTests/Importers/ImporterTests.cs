@@ -26,37 +26,37 @@ namespace WarehouseImport.UnitTests.Importers
         protected virtual Importer Create()
         {
             ImportSource = new Mock<IImportSource>();
-            ImportSource.Setup(m => m.GetLines())
-                .Returns(_lines);
+            ImportSource.Setup(m => m.GetLinesAsync())
+                .ReturnsAsync(_lines);
 
             Command = new Mock<ICommand>();
 
             Parser = new Mock<IParser>();
-            Parser.Setup(m => m.Parse(It.IsAny<string>()))
-                .Returns(Result.Ok(Command.Object));
+            Parser.Setup(m => m.ParseAsync(It.IsAny<string>()))
+                .ReturnsAsync(Result.Ok(Command.Object));
 
             return new Importer(ImportSource.Object,
                 new[] { Parser.Object });
         }
 
         [Fact]
-        public void Get_Lines_From_ImportSource()
+        public async void Get_Lines_From_ImportSource()
         {
             var importer = Create();
 
-            importer.Import();
+            await importer.ImportAsync();
 
-            ImportSource.Verify(m => m.GetLines(), Times.Once);
+            ImportSource.Verify(m => m.GetLinesAsync(), Times.Once);
         }
 
         [Fact]
-        public void Parse_Line_Using_Parser()
+        public async void Parse_Line_Using_Parser()
         {
             var importer = Create();
 
-            importer.Import();
+            await importer.ImportAsync();
 
-            Parser.Verify(m => m.Parse(_lines.First()), Times.Once);
+            Parser.Verify(m => m.ParseAsync(_lines.First()), Times.Once);
         }
     }
 }

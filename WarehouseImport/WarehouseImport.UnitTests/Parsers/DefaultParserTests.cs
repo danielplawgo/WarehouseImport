@@ -17,11 +17,11 @@ namespace WarehouseImport.UnitTests.Parsers
         [Theory]
         [InlineData((string) null)]
         [InlineData("")]
-        public void Return_False_Result_When_Line_Is_Null_Or_Empty(string line)
+        public async void Return_False_Result_When_Line_Is_Null_Or_Empty(string line)
         {
             var parser = Create();
 
-            var result = parser.Parse(line);
+            var result = await parser.ParseAsync(line);
 
             result.Success
                 .Should()
@@ -29,11 +29,11 @@ namespace WarehouseImport.UnitTests.Parsers
         }
 
         [Fact]
-        public void Return_NullCommand_When_Line_Start_With_Hash()
+        public async void Return_NullCommand_When_Line_Start_With_Hash()
         {
             var parser = Create();
 
-            var result = parser.Parse("#Line to ignore");
+            var result = await parser.ParseAsync("#Line to ignore");
 
             result.Success
                 .Should()
@@ -45,11 +45,11 @@ namespace WarehouseImport.UnitTests.Parsers
         }
 
         [Fact]
-        public void Return_MaterialImportCommand_When_Line_Has_Correct_Data()
+        public async void Return_MaterialImportCommand_When_Line_Has_Correct_Data()
         {
             var parser = Create();
 
-            var result = parser.Parse("Cherry Hardwood Arched Door - PS;COM-100001;WH-A,5|WH-B,10");
+            var result = await parser.ParseAsync("Cherry Hardwood Arched Door - PS;COM-100001;WH-A,5|WH-B,10");
 
             result.Success
                 .Should()
