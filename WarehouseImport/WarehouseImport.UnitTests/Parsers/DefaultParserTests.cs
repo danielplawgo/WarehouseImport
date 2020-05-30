@@ -43,5 +43,40 @@ namespace WarehouseImport.UnitTests.Parsers
                 .Should()
                 .BeOfType<NullCommand>();
         }
+
+        [Fact]
+        public void Return_MaterialImportCommand_When_Line_Has_Correct_Data()
+        {
+            var parser = Create();
+
+            var result = parser.Parse("Cherry Hardwood Arched Door - PS;COM-100001;WH-A,5|WH-B,10");
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            var expected = new MaterialImportCommand()
+            {
+                Name = "Cherry Hardwood Arched Door - PS",
+                Id = "COM-100001",
+                Warehouses = new List<MaterialImportCommand.WarehouseCount>()
+                {
+                    new MaterialImportCommand.WarehouseCount()
+                    {
+                        Name = "WH-A",
+                        Count = 5
+                    },
+                    new MaterialImportCommand.WarehouseCount()
+                    {
+                        Name = "WH-B",
+                        Count = 10
+                    }
+                }
+            };
+
+            result.Value
+                .Should()
+                .BeEquivalentTo(expected);
+        }
     }
 }
