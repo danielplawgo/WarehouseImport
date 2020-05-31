@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +23,14 @@ namespace WarehouseImport.Importers
         {
             foreach (var requestWarehouse in request.Warehouses)
             {
-                var warehouse = new Warehouse(requestWarehouse.Name);
+                var warehouse = _repository.Warehouses.FirstOrDefault(w => w.Name == requestWarehouse.Name);
 
-                await _repository.AddAsync(warehouse);
+                if (warehouse == null)
+                {
+                    warehouse = new Warehouse(requestWarehouse.Name);
+
+                    await _repository.AddAsync(warehouse);
+                }
             }
 
             return Result.Ok();
