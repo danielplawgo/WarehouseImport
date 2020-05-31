@@ -25,13 +25,13 @@ namespace WarehouseImport.UnitTests.Warehouses
         }
 
         [Fact]
-        public void Add_Warehouse_When_Does_Not_Exist()
+        public async void Add_Warehouse_When_Does_Not_Exist()
         {
             var repository = Create();
 
             var warehouse = new Warehouse("warehouse");
 
-            var result = repository.Add(warehouse);
+            var result = await repository.AddAsync(warehouse);
 
             result.Success
                 .Should()
@@ -45,15 +45,15 @@ namespace WarehouseImport.UnitTests.Warehouses
         }
 
         [Fact]
-        public void Dont_Add_Warehouse_To_Repository_When_Exist()
+        public async void Dont_Add_Warehouse_To_Repository_When_Exist()
         {
             var repository = Create();
 
             var warehouse = new Warehouse("warehouse");
 
-            repository.Add(warehouse);
+            await repository.AddAsync(warehouse);
 
-            var result = repository.Add(warehouse);
+            var result = await repository.AddAsync(warehouse);
 
             result.Success
                 .Should()

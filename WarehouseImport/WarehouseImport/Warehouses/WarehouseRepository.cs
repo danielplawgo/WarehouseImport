@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WarehouseImport.Warehouses
 {
@@ -9,16 +10,16 @@ namespace WarehouseImport.Warehouses
     {
         private readonly List<Warehouse> _warehouses = new List<Warehouse>();
         public IEnumerable<Warehouse> Warehouses => _warehouses;
-        public Result Add(Warehouse warehouse)
+        public Task<Result> AddAsync(Warehouse warehouse)
         {
             var existingWarehouse = Warehouses.FirstOrDefault(w => w.Name == warehouse.Name);
             if (existingWarehouse != null)
             {
-                return Result.Failure("warehouse exist");
+                return Result.FailureAsync("warehouse exist");
             }
             _warehouses.Add(warehouse);
 
-            return Result.Ok();
+            return Result.OkAsync();
         }
     }
 
@@ -26,6 +27,6 @@ namespace WarehouseImport.Warehouses
     {
         IEnumerable<Warehouse> Warehouses { get; }
 
-        Result Add(Warehouse warehouse);
+        Task<Result> AddAsync(Warehouse warehouse);
     }
 }
