@@ -79,5 +79,19 @@ namespace WarehouseImport.UnitTests.Parsers
                 .Should()
                 .BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public async void Trim_WhiteSpace_On_Material_Id()
+        {
+            var parser = Create();
+
+            var result = await parser.ParseAsync(@"MDF, CARB2, 1 1/8""; COM-101734;WH-C,8");
+
+            var command = result.Value as MaterialImportCommand;
+
+            command.Id
+                .Should()
+                .Be("COM-101734");
+        }
     }
 }
