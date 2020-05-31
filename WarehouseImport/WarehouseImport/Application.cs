@@ -23,6 +23,8 @@ namespace WarehouseImport
         public async Task RunAsync()
         {
             await _importer.ImportAsync();
+
+            await _exporter.ExportAsync();
         }
     }
 
