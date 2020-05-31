@@ -20,6 +20,12 @@ namespace WarehouseImport.Importers
 
         public async Task<Result> Handle(MaterialImportCommand request, CancellationToken token)
         {
+            foreach (var requestWarehouse in request.Warehouses)
+            {
+                var warehouse = new Warehouse(requestWarehouse.Name);
+
+                await _repository.AddAsync(warehouse);
+            }
 
             return Result.Ok();
         }
