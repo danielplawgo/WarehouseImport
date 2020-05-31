@@ -43,5 +43,16 @@ namespace WarehouseImport.UnitTests.Exporters
             result.Should()
                 .StartWith($"warehouse (total 10){Environment.NewLine}");
         }
+
+        [Fact]
+        public async void Format_Materials_Data()
+        {
+            var formatter = Create();
+
+            var result = await formatter.FormatAsync(Warehouse);
+
+            result.Should()
+                .EndWith($"id1: 20{Environment.NewLine}id2: 30");
+        }
     }
 }
