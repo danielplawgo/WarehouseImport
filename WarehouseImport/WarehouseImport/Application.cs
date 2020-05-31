@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WarehouseImport.Importers;
 
 namespace WarehouseImport
 {
     public class Application : IApplication
     {
-        public Task RunAsync()
+        private readonly IImporter _importer;
+
+        public Application(IImporter importer)
         {
-            throw new NotImplementedException();
+            _importer = importer;
+        }
+
+        public async Task RunAsync()
+        {
+            await _importer.ImportAsync();
         }
     }
 
