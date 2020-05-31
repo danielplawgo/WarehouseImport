@@ -12,6 +12,8 @@ namespace WarehouseImport.Exporters
             public string Name { get; set; }
 
             public int Count { get; set; }
+
+            public IEnumerable<MaterialDto> Materials { get; set; }
         }
 
         public class MaterialDto

@@ -109,5 +109,35 @@ namespace WarehouseImport.UnitTests.Exporters
                 .Should()
                 .Be("warehouse1");
         }
+
+        [Fact]
+        public async void Order_Materials_By_Id()
+        {
+            var hander = Create(CreateDefaultWarehouses());
+
+            var result = await hander.Handle(new ExportQuery(), CancellationToken.None);
+
+            var warehouse = result.Value.ElementAt(0);
+
+            var firstItem = warehouse.Materials.ElementAt(0);
+
+            firstItem.Id
+                .Should()
+                .Be("aid2.2");
+
+            firstItem.Count
+                .Should()
+                .Be(40);
+
+            var secondItem = warehouse.Materials.ElementAt(1);
+
+            secondItem.Id
+                .Should()
+                .Be("id2.1");
+
+            secondItem.Count
+                .Should()
+                .Be(20);
+        }
     }
 }
