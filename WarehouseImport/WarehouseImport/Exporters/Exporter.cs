@@ -40,6 +40,7 @@ namespace WarehouseImport.Exporters
                 else
                 {
                     await _exportDestination.WriteAsync(Environment.NewLine);
+                    await _exportDestination.WriteAsync(Environment.NewLine);
                 }
 
                 var formattedValue = await _formatter.FormatAsync(warehouseDto);

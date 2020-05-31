@@ -21,7 +21,7 @@ namespace WarehouseImport.UnitTests.Exporters
 
         protected Mock<IExportDestination> ExportDestination;
 
-        protected string FormattedData = $"data{Environment.NewLine}";
+        protected string FormattedData = $"data";
         protected string DestinationData = string.Empty;
 
         protected virtual Exporter Create()
@@ -106,8 +106,7 @@ namespace WarehouseImport.UnitTests.Exporters
             DestinationData.Should()
                 .Be(@"data
 
-data
-");
+data");
         }
     }
 }
