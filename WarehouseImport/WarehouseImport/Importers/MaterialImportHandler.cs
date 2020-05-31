@@ -31,6 +31,8 @@ namespace WarehouseImport.Importers
 
                     await _repository.AddAsync(warehouse);
                 }
+
+                warehouse.AddMaterial(request.Name, request.Id, requestWarehouse.Count);
             }
 
             return Result.Ok();
