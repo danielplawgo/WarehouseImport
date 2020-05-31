@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace WarehouseImport.Warehouses
@@ -10,6 +11,11 @@ namespace WarehouseImport.Warehouses
         public IEnumerable<Warehouse> Warehouses => _warehouses;
         public Result Add(Warehouse warehouse)
         {
+            var existingWarehouse = Warehouses.FirstOrDefault(w => w.Name == warehouse.Name);
+            if (existingWarehouse != null)
+            {
+                return Result.Failure("warehouse exist");
+            }
             _warehouses.Add(warehouse);
 
             return Result.Ok();
