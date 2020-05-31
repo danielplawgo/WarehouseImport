@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Autofac;
 using MediatR;
 
@@ -6,9 +7,11 @@ namespace WarehouseImport
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var application = CreateApplication(CreateContainer());
+
+            await application.RunAsync();
         }
 
         public static IContainer CreateContainer(Action<ContainerBuilder> extraRegistrations = null)
