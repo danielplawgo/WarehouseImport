@@ -32,5 +32,10 @@ namespace WarehouseImport
 
             return builder.Build();
         }
+
+        static IApplication CreateApplication(IContainer container)
+        {
+            return container.Resolve<IApplication>();
+        }
     }
 }
