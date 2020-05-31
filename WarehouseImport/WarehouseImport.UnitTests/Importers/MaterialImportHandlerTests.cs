@@ -53,5 +53,21 @@ namespace WarehouseImport.UnitTests.Importers
 
             WarehouseRepository.Verify(r => r.AddAsync(It.Is<Warehouse>(w => w.Name == "warehouse")), Times.Once);
         }
+
+        [Fact]
+        public async void Dont_Add_Warehouse_When_Exist()
+        {
+            var handler = Create();
+
+            Warehouses.Add(new Warehouse("warehouse"));
+
+            var result = await handler.Handle(Command, CancellationToken.None);
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            WarehouseRepository.Verify(r => r.AddAsync(It.IsAny<Warehouse>()), Times.Never);
+        }
     }
 }
