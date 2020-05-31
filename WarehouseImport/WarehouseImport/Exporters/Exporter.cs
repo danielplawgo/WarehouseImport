@@ -22,6 +22,11 @@ namespace WarehouseImport.Exporters
         {
             var queryResult = await _mediator.Send(new ExportQuery());
 
+            if (queryResult.Success == false)
+            {
+                return Result.Failure("error");
+            }
+
             foreach (var warehouseDto in queryResult.Value)
             {
                 var formattedValue = await _formatter.FormatAsync(warehouseDto);
