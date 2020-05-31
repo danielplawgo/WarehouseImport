@@ -24,7 +24,7 @@ namespace WarehouseImport.Parsers
 
             var data = line.Split(";");
 
-            command.Name = data[0];
+            command.Name = data[0].Trim();
             command.Id = data[1].Trim();
 
             var warehouseData = data[2].Split("|");
