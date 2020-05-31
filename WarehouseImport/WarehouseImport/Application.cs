@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WarehouseImport.Exporters;
 using WarehouseImport.Importers;
 
 namespace WarehouseImport
@@ -10,9 +11,13 @@ namespace WarehouseImport
     {
         private readonly IImporter _importer;
 
-        public Application(IImporter importer)
+        private readonly IExporter _exporter;
+
+        public Application(IImporter importer,
+            IExporter exporter)
         {
             _importer = importer;
+            _exporter = exporter;
         }
 
         public async Task RunAsync()
