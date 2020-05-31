@@ -42,6 +42,22 @@ namespace WarehouseImport
 
             return result;
         }
+
+        public static Result Failure(string message)
+        {
+            var result = new Result();
+
+            result.Success = false;
+            result.Errors = new List<ErrorMessage>()
+            {
+                new ErrorMessage()
+                {
+                    Message = message
+                }
+            };
+
+            return result;
+        }
     }
 
     public class Result<T> : Result
