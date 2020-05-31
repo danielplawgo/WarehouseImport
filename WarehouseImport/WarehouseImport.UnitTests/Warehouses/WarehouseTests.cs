@@ -82,5 +82,19 @@ namespace WarehouseImport.UnitTests.Warehouses
                 .Should()
                 .Be(10);
         }
+
+        [Fact]
+        public void Update_Count_When_Add_Second_Material()
+        {
+            var warehouse = new Warehouse("warehouse");
+
+            warehouse.AddMaterial("name", "id", 10);
+
+            warehouse.AddMaterial("name2", "id2", 30);
+
+            warehouse.Count
+                .Should()
+                .Be(40);
+        }
     }
 }
