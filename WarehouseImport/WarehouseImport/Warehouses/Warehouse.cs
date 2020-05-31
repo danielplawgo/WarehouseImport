@@ -31,6 +31,7 @@ namespace WarehouseImport.Warehouses
             }
                 
             material.AddCount(count);
+            Count = count;
         }
     }
 }
