@@ -70,5 +70,17 @@ namespace WarehouseImport.UnitTests.Warehouses
                 .And
                 .Contain(m => m.Name == "name" && m.Id == "id" && m.Count == 30);
         }
+
+        [Fact]
+        public void Set_Count_When_Add_New_Material()
+        {
+            var warehouse = new Warehouse("warehouse");
+
+            warehouse.AddMaterial("name", "id", 10);
+
+            warehouse.Count
+                .Should()
+                .Be(10);
+        }
     }
 }
