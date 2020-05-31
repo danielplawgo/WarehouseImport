@@ -18,6 +18,10 @@ namespace WarehouseImport.UnitTests.Exporters
 
         protected Mock<IFormatter<ExportQuery.WarehouseDto>> Formatter;
 
+        protected Mock<IExportDestination> ExportDestination;
+
+        protected string FormattedData = "data";
+
         protected virtual Exporter Create()
         {
             Warehouses = new List<ExportQuery.WarehouseDto>()
@@ -30,8 +34,12 @@ namespace WarehouseImport.UnitTests.Exporters
                 .ReturnsAsync(Result.Ok(Warehouses));
 
             Formatter = new Mock<IFormatter<ExportQuery.WarehouseDto>>();
+            Formatter.Setup(m => m.FormatAsync(It.IsAny<ExportQuery.WarehouseDto>()))
+                .ReturnsAsync(FormattedData);
 
-            return new Exporter(Mediator.Object, Formatter.Object);
+            ExportDestination = new Mock<IExportDestination>();
+
+            return new Exporter(Mediator.Object, Formatter.Object, ExportDestination.Object);
         }
 
         [Fact]
@@ -69,6 +77,16 @@ namespace WarehouseImport.UnitTests.Exporters
                 .BeFalse();
 
             Formatter.Verify(m => m.FormatAsync(Warehouse), Times.Never);
+        }
+
+        [Fact]
+        public async void Save_Formatted_Data_To_Destination()
+        {
+            var exporter = Create();
+
+            await exporter.ExportAsync();
+
+            ExportDestination.Verify(m => m.WriteAsync(FormattedData), Times.Once);
         }
     }
 }
