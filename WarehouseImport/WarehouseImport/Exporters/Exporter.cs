@@ -2,14 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace WarehouseImport.Exporters
 {
     public class Exporter : IExporter
     {
-        public Task<Result> ExportAsync()
+        private readonly IMediator _mediator;
+
+        public Exporter(IMediator mediator)
         {
-            throw new NotImplementedException();
+            _mediator = mediator;
+        }
+
+        public async Task<Result> ExportAsync()
+        {
+
+            return Result.Ok();
         }
     }
 }
