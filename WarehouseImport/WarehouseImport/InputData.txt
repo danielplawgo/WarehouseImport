@@ -1,4 +1,4 @@
-﻿# Material inventory initial state as of Jan 01 2018
+# Material inventory initial state as of Jan 01 2018
 # New materials
 Cherry Hardwood Arched Door - PS;COM-100001;WH-A,5|WH-B,10
 Maple Dovetail Drawerbox;COM-124047;WH-A,15
