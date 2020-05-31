@@ -7,9 +7,13 @@ namespace WarehouseImport.Exporters
 {
     public class WarehouseExportFormatter : IFormatter<ExportQuery.WarehouseDto>
     {
-        public Task<string> FormatAsync(ExportQuery.WarehouseDto value)
+        public Task<string> FormatAsync(ExportQuery.WarehouseDto warehouse)
         {
-            throw new NotImplementedException();
+            var builder = new StringBuilder();
+
+            builder.AppendLine($"{warehouse.Name} (total {warehouse.Count})");
+
+            return Task.FromResult(builder.ToString());
         }
     }
 }
