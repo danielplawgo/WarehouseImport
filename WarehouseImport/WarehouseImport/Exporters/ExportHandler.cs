@@ -22,6 +22,7 @@ namespace WarehouseImport.Exporters
         {
             var result = _repository.Warehouses
                 .OrderByDescending(w => w.Count)
+                .ThenByDescending(w => w.Name)
                 .Select(w => new ExportQuery.WarehouseDto()
                 {
                     Name = w.Name,
