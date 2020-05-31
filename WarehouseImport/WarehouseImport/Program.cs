@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using MediatR;
 
 namespace WarehouseImport
 {
@@ -17,6 +18,17 @@ namespace WarehouseImport
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
+            builder
+                .RegisterType<Mediator>()
+                .As<IMediator>()
+                .InstancePerLifetimeScope();
+
+            builder.Register<ServiceFactory>(context =>
+            {
+                var c = context.Resolve<IComponentContext>();
+                return t => c.Resolve(t);
+            });
 
             return builder.Build();
         }
