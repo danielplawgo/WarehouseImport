@@ -18,6 +18,8 @@ namespace WarehouseImport.Warehouses
 
         public IEnumerable<Material> Materials => _materials;
 
+        public int Count { get; private set; }
+
         public void AddMaterial(string name, string id, int count)
         {
             var material = _materials.FirstOrDefault(m => m.Id == id);
