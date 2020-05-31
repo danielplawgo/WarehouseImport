@@ -10,4 +10,10 @@
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="InputData.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
