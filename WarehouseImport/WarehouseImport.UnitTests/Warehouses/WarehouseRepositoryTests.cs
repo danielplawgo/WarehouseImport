@@ -23,5 +23,25 @@ namespace WarehouseImport.UnitTests.Warehouses
                 .Should()
                 .BeEmpty();
         }
+
+        [Fact]
+        public void Add_Warehouse_When_Does_Not_Exist()
+        {
+            var repository = Create();
+
+            var warehouse = new Warehouse("warehouse");
+
+            var result = repository.Add(warehouse);
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            repository.Warehouses
+                .Should()
+                .HaveCount(1)
+                .And
+                .Contain(warehouse);
+        }
     }
 }
