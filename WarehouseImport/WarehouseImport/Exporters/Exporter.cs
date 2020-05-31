@@ -10,12 +10,15 @@ namespace WarehouseImport.Exporters
     {
         private readonly IMediator _mediator;
         private readonly IFormatter<ExportQuery.WarehouseDto> _formatter;
+        private readonly IExportDestination _exportDestination;
 
         public Exporter(IMediator mediator,
-            IFormatter<ExportQuery.WarehouseDto> formatter)
+            IFormatter<ExportQuery.WarehouseDto> formatter,
+            IExportDestination exportDestination)
         {
             _mediator = mediator;
             _formatter = formatter;
+            _exportDestination = exportDestination;
         }
 
         public async Task<Result> ExportAsync()
@@ -30,6 +33,8 @@ namespace WarehouseImport.Exporters
             foreach (var warehouseDto in queryResult.Value)
             {
                 var formattedValue = await _formatter.FormatAsync(warehouseDto);
+
+                await _exportDestination.WriteAsync(formattedValue);
             }
 
             return Result.Ok();
