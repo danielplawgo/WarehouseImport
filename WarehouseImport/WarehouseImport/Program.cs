@@ -4,14 +4,14 @@ using MediatR;
 
 namespace WarehouseImport
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
         }
 
-        static IContainer CreateContainer()
+        public static IContainer CreateContainer(Action<ContainerBuilder> extraRegistrations = null)
         {
             var builder = new ContainerBuilder();
 
@@ -30,10 +30,15 @@ namespace WarehouseImport
                 return t => c.Resolve(t);
             });
 
+            if (extraRegistrations != null)
+            {
+                extraRegistrations(builder);
+            }
+
             return builder.Build();
         }
 
-        static IApplication CreateApplication(IContainer container)
+        public static IApplication CreateApplication(IContainer container)
         {
             return container.Resolve<IApplication>();
         }
