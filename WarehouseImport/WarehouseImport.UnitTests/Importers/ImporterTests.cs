@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using MediatR;
 using Moq;
+using WarehouseImport.Commands;
 using WarehouseImport.Importers;
 using WarehouseImport.Parsers;
 using Xunit;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
+using WarehouseImport.Commands;
 using WarehouseImport.Parsers;
 using Xunit;
 
