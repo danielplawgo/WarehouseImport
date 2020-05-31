@@ -17,6 +17,7 @@ namespace WarehouseImport.Exporters
 
         public async Task<Result> ExportAsync()
         {
+            var queryResult = await _mediator.Send(new ExportQuery());
 
             return Result.Ok();
         }
