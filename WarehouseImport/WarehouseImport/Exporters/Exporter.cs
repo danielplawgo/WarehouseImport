@@ -30,8 +30,18 @@ namespace WarehouseImport.Exporters
                 return Result.Failure("error");
             }
 
+            bool isFirstRun = true;
             foreach (var warehouseDto in queryResult.Value)
             {
+                if (isFirstRun)
+                {
+                    isFirstRun = false;
+                }
+                else
+                {
+                    await _exportDestination.WriteAsync(Environment.NewLine);
+                }
+
                 var formattedValue = await _formatter.FormatAsync(warehouseDto);
 
                 await _exportDestination.WriteAsync(formattedValue);
