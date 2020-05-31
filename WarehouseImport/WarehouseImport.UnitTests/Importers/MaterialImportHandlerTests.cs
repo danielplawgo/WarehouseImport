@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using FluentAssertions;
@@ -37,6 +38,10 @@ namespace WarehouseImport.UnitTests.Importers
             WarehouseRepository.SetupGet(w => w.Warehouses)
                 .Returns(Warehouses);
 
+            WarehouseRepository.Setup(w => w.AddAsync(It.IsAny<Warehouse>()))
+                .Callback<Warehouse>(w => Warehouses.Add(w))
+                .ReturnsAsync(Result.Ok);
+
             return new MaterialImportHandler(WarehouseRepository.Object);
         }
 
@@ -68,6 +73,27 @@ namespace WarehouseImport.UnitTests.Importers
                 .BeTrue();
 
             WarehouseRepository.Verify(r => r.AddAsync(It.IsAny<Warehouse>()), Times.Never);
+        }
+
+        [Fact]
+        public async void Add_Material_To_Warehouse()
+        {
+            var handler = Create();
+
+            var result = await handler.Handle(Command, CancellationToken.None);
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            var warehouse = Warehouses.First();
+
+            var expected = new Material("name", "id");
+            expected.AddCount(10);
+
+            warehouse.Materials
+                .Should()
+                .ContainEquivalentOf(expected);
         }
     }
 }
