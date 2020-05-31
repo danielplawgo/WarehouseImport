@@ -10,7 +10,7 @@ namespace WarehouseImport.Console
     {
         public Task WriteAsync(string value)
         {
-            System.Console.WriteLine(value);
+            System.Console.Write(value);
 
             return Task.CompletedTask;
         }
