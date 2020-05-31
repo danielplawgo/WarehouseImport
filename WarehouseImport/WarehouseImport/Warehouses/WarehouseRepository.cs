@@ -10,7 +10,9 @@ namespace WarehouseImport.Warehouses
         public IEnumerable<Warehouse> Warehouses => _warehouses;
         public Result Add(Warehouse warehouse)
         {
-            throw new NotImplementedException();
+            _warehouses.Add(warehouse);
+
+            return Result.Ok();
         }
     }
 
