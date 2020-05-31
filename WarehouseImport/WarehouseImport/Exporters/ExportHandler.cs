@@ -26,7 +26,14 @@ namespace WarehouseImport.Exporters
                 .Select(w => new ExportQuery.WarehouseDto()
                 {
                     Name = w.Name,
-                    Count = w.Count
+                    Count = w.Count,
+                    Materials = w.Materials
+                        .OrderBy(m => m.Id)
+                        .Select(m => new ExportQuery.MaterialDto()
+                        {
+                            Id = m.Id,
+                            Count = m.Count
+                        })
                 });
 
             return Result.OkAsync(result);
