@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WarehouseImport
 {
@@ -18,6 +19,11 @@ namespace WarehouseImport
             };
         }
 
+        public static Task<Result> OkAsync()
+        {
+            return Task.FromResult(Ok());
+        }
+
         public static Result<T> Ok<T>(T value)
         {
             return new Result<T>()
@@ -25,6 +31,11 @@ namespace WarehouseImport
                 Success = true,
                 Value = value
             };
+        }
+
+        public static Task<Result<T>> OkAsync<T>(T value)
+        {
+            return Task.FromResult(Ok<T>(value));
         }
 
         public static Result<T> Failure<T>(string message)
@@ -57,6 +68,11 @@ namespace WarehouseImport
             };
 
             return result;
+        }
+
+        public static Task<Result> FailureAsync(string message)
+        {
+            return Task.FromResult(Failure(message));
         }
     }
 
