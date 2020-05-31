@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -14,13 +15,14 @@ namespace WarehouseImport.UnitTests.Exporters
     {
         protected Mock<IMediator> Mediator;
         protected ExportQuery.WarehouseDto Warehouse = new ExportQuery.WarehouseDto();
-        protected IEnumerable<ExportQuery.WarehouseDto> Warehouses;
+        protected List<ExportQuery.WarehouseDto> Warehouses;
 
         protected Mock<IFormatter<ExportQuery.WarehouseDto>> Formatter;
 
         protected Mock<IExportDestination> ExportDestination;
 
-        protected string FormattedData = "data";
+        protected string FormattedData = $"data{Environment.NewLine}";
+        protected string DestinationData = string.Empty;
 
         protected virtual Exporter Create()
         {
@@ -31,13 +33,16 @@ namespace WarehouseImport.UnitTests.Exporters
 
             Mediator = new Mock<IMediator>();
             Mediator.Setup(m => m.Send(It.IsAny<ExportQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(Result.Ok(Warehouses));
+                .ReturnsAsync(Result.Ok(Warehouses as IEnumerable<ExportQuery.WarehouseDto>));
 
             Formatter = new Mock<IFormatter<ExportQuery.WarehouseDto>>();
             Formatter.Setup(m => m.FormatAsync(It.IsAny<ExportQuery.WarehouseDto>()))
                 .ReturnsAsync(FormattedData);
 
             ExportDestination = new Mock<IExportDestination>();
+            ExportDestination.Setup(m => m.WriteAsync(It.IsAny<string>()))
+                .Callback<string>(s => DestinationData += s)
+                .Returns(Task.CompletedTask);
 
             return new Exporter(Mediator.Object, Formatter.Object, ExportDestination.Object);
         }
@@ -87,6 +92,22 @@ namespace WarehouseImport.UnitTests.Exporters
             await exporter.ExportAsync();
 
             ExportDestination.Verify(m => m.WriteAsync(FormattedData), Times.Once);
+        }
+
+        [Fact]
+        public async void Add_New_Line_Between_Warehouses()
+        {
+            var exporter = Create();
+
+            Warehouses.Add(new ExportQuery.WarehouseDto());
+
+            await exporter.ExportAsync();
+
+            DestinationData.Should()
+                .Be(@"data
+
+data
+");
         }
     }
 }
