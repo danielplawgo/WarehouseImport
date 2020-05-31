@@ -95,5 +95,27 @@ namespace WarehouseImport.UnitTests.Importers
                 .Should()
                 .ContainEquivalentOf(expected);
         }
+
+        [Fact]
+        public async void Update_Material_Count_In_Warehouse()
+        {
+            var handler = Create();
+
+            await handler.Handle(Command, CancellationToken.None);
+            var result = await handler.Handle(Command, CancellationToken.None);
+
+            result.Success
+                .Should()
+                .BeTrue();
+
+            var warehouse = Warehouses.First();
+
+            var expected = new Material("name", "id");
+            expected.AddCount(20);
+
+            warehouse.Materials
+                .Should()
+                .ContainEquivalentOf(expected);
+        }
     }
 }
