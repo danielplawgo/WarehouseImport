@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using WarehouseImport.Exporters;
@@ -51,6 +52,23 @@ namespace WarehouseImport.UnitTests.Exporters
             await exporter.ExportAsync();
 
             Formatter.Verify(m => m.FormatAsync(Warehouse), Times.Once);
+        }
+
+        [Fact]
+        public async void Dont_Format_Data_When_Query_Has_Error()
+        {
+            var exporter = Create();
+
+            Mediator.Setup(m => m.Send(It.IsAny<ExportQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result.Failure<IEnumerable<ExportQuery.WarehouseDto>>("error"));
+
+            var result = await exporter.ExportAsync();
+
+            result.Success
+                .Should()
+                .BeFalse();
+
+            Formatter.Verify(m => m.FormatAsync(Warehouse), Times.Never);
         }
     }
 }
