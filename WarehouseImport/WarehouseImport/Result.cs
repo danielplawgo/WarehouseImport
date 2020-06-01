@@ -74,6 +74,11 @@ namespace WarehouseImport
         {
             return Task.FromResult(Failure(message));
         }
+
+        public static Task<Result<T>> FailureAsync<T>(string message)
+        {
+            return Task.FromResult(Failure<T>(message));
+        }
     }
 
     public class Result<T> : Result
