@@ -8,16 +8,16 @@ namespace WarehouseImport.Parsers
 {
     public class DefaultParser : IParser
     {
-        public async Task<Result<ICommand>> ParseAsync(string line)
+        public Task<Result<ICommand>> ParseAsync(string line)
         {
             if (string.IsNullOrEmpty(line))
             {
-                return Result.Failure<ICommand>("Invalid line");
+                return Result.FailureAsync<ICommand>("Invalid line");
             }
 
             if (line.StartsWith("#"))
             {
-                return Result.Ok<ICommand>(new NullCommand());
+                return Result.OkAsync<ICommand>(new NullCommand());
             }
 
             var command = new MaterialImportCommand();
@@ -47,7 +47,7 @@ namespace WarehouseImport.Parsers
 
             command.Warehouses = warehouses;
 
-            return Result.Ok<ICommand>(command);
+            return Result.OkAsync<ICommand>(command);
         }
     }
 }
